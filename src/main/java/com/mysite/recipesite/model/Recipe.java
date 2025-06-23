@@ -18,17 +18,17 @@ public class Recipe {
     private String description;
 
     @Column(length = 1000)
-    private String ingredients;// רכיבים
+    private String ingredients;
 
     @Column(length = 2000)
-    private String steps;//אופן ההכנה
+    private String steps;
 
     private int preparationTime; 
-    private String difficulty; // רמת קושי
+    private String difficulty; 
 
-    private String mediaUrl; // תמונה או סרטון
+    private String mediaUrl;
 
-    private LocalDate dateAdded;//תאריך הוספה
+    private LocalDate dateAdded;
 
     private double averageRating;
     private int ratingCount;
@@ -41,25 +41,3 @@ private User user;
    
 }
 
-// package com.mysite.recipesite.model;
-
-// import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-// import jakarta.persistence.*;
-// import lombok.Data;
-
-// @Entity
-// @Data
-// public class Recipe {
-
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Integer id;
-
-//     private String title;
-//     private String description;
-
-//     @ManyToOne
-//     @JoinColumn(name = "user_id") 
-//     @JsonIgnoreProperties("recipes") // מונע לולאה בזמן סידור JSON
-//     private User user;
-// }
