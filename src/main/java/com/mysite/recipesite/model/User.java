@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Data
+@Table(name = "users")
 public class User {
 
     @Id
