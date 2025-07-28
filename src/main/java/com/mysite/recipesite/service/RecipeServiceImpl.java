@@ -1,12 +1,16 @@
 package com.mysite.recipesite.service;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.mysite.recipesite.dal.RecipeRepository;
 import com.mysite.recipesite.dal.UserRepository;
+import com.mysite.recipesite.dto.RecipeDTO;
 import com.mysite.recipesite.model.Recipe;
 import com.mysite.recipesite.model.User;
 
@@ -15,24 +19,25 @@ public class RecipeServiceImpl implements RecipeService{
 
     @Autowired
     private RecipeRepository recipeRepo;
-
     @Autowired
     private UserRepository userRepo;
+    @Autowired
+    private ModelMapper mapper;
 
     @Override
-    public void add(Recipe r) {
+    public void add(RecipeDTO r) {
         if (recipeRepo.existsByid(r.getId())) {
             throw new RuntimeException("Username already exists");
         }
-        recipeRepo.save(r);
+        recipeRepo.save(mapper.map(r, Recipe.class));
     }
 
     @Override
-    public void update(Recipe r) {
+    public void update(RecipeDTO r) {
         if (!recipeRepo.existsByid(r.getId())) {
             throw new RuntimeException("Recipe does not exist");
         }
-        recipeRepo.save(r);
+        recipeRepo.save(mapper.map(r, Recipe.class));
     }
 
    @Override
@@ -41,13 +46,14 @@ public class RecipeServiceImpl implements RecipeService{
     }
 
     @Override
-    public List<Recipe> getAll() {
-        return (List<Recipe>) recipeRepo.findAll();
+    public List<RecipeDTO> getAll() {
+        Type t=new TypeToken<List<RecipeDTO>>(){}.getType();
+        return mapper.map((List<Recipe>) recipeRepo.findAll(),t);
     }
 
     @Override
-    public Recipe getBytitle(String title) {
-        return recipeRepo.findBytitle(title);
+    public RecipeDTO getBytitle(String title) {
+        return mapper.map(recipeRepo.findBytitle(title), RecipeDTO.class);
     }
 
     @Override

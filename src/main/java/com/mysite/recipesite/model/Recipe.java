@@ -1,7 +1,6 @@
-// Recipe.java - מייצג מתכון
 package com.mysite.recipesite.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,32 +15,31 @@ public class Recipe {
     private int id;
 
     @Column(nullable = false)
-    private String title; // שם המתכון
+    private String title; 
 
     @Column(length = 1000)
-    private String description; // תיאור המתכון
+    private String description; 
 
     @Column
-    private String ingredients; // רכיבים (מחרוזת מופרדת בפסיקים או פורמט אחר)
+    private String ingredients; 
 
     @Column(length = 2000)
-    private String steps; // שלבי ההכנה
+    private String steps; 
 
     @Column
-    private String difficulty; // רמת קושי (קל/בינוני/קשה)
+    private String difficulty; 
 
     @Column
-    private String mediaUrl; // קישור לתמונה או וידאו
+    private String mediaUrl; 
 
     @Column(nullable = false)
     private int preparationTime = 0;
 
     @Column
-    private int userid; // קטגוריה (כגון: קינוחים, ראשונות, עיקריות)
+    private int userid; 
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "userid",insertable = false, updatable = false)
-    private User user; // משתמש שיצר את המתכון
+    private User userRef;
 
 }

@@ -2,6 +2,8 @@ package com.mysite.recipesite.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,8 +26,9 @@ public class User {
     @Column
     private String password;
 
-    @OneToMany(mappedBy = "user")
-    private List<Recipe> recipes; // מתכונים שיצר המשתמש
+    @OneToMany(mappedBy = "userRef")
+    @JsonIgnore
+    private List<Recipe> recipes; 
 
 
 }

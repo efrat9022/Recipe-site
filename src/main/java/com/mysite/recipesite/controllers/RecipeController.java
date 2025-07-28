@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.mysite.recipesite.model.Recipe;
+import com.mysite.recipesite.dto.RecipeDTO;
 import com.mysite.recipesite.service.RecipeService;
 
 @RestController
@@ -29,12 +29,12 @@ public class RecipeController {
     }
 
      @PostMapping("/add")
-    public void addRecipe(@RequestBody Recipe r) {
+    public void addRecipe(@RequestBody RecipeDTO r) {
         rc.add(r);
     }
 
     @PutMapping("/update")
-    public void updateRecipe(@RequestBody Recipe r) {
+    public void updateRecipe(@RequestBody RecipeDTO r) {
         rc.update(r);
     }
 
@@ -44,12 +44,12 @@ public class RecipeController {
     }
 
     @GetMapping("/getAll")
-    public List<Recipe> getAllRecipe() {
+    public List<RecipeDTO> getAllRecipe() {
         return rc.getAll();
     }
 
     @GetMapping("/getBytitle/{title}")
-    public Recipe getBytitlRecipe(@PathVariable String title) {
+    public RecipeDTO getBytitlRecipe(@PathVariable String title) {
         return rc.getBytitle(title);
     }
 
