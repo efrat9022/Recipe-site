@@ -2,6 +2,8 @@ package com.mysite.recipesite.model;
 
 
 
+import java.util.List;
+
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -41,5 +43,8 @@ public class Recipe {
     @ManyToOne
     @JoinColumn(name = "userid",insertable = false, updatable = false)
     private User userRef;
+
+    @OneToMany(mappedBy = "recipeRef")
+    private List<RatingHistory> ratings;
 
 }

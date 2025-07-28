@@ -30,5 +30,9 @@ public class User {
     @JsonIgnore
     private List<Recipe> recipes; 
 
+    @OneToMany(mappedBy = "userRef")
+    @JsonIgnore
+    private List<RatingHistory> ratings;
+
 
 }
