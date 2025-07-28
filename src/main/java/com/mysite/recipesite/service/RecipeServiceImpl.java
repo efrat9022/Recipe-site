@@ -1,50 +1,64 @@
 package com.mysite.recipesite.service;
 
-import com.mysite.recipesite.dal.RecipeRepository;
-import com.mysite.recipesite.model.Recipe;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Optional;
+
+import com.mysite.recipesite.dal.RecipeRepository;
+import com.mysite.recipesite.dal.UserRepository;
+import com.mysite.recipesite.model.Recipe;
+import com.mysite.recipesite.model.User;
 
 @Service
-public class RecipeServiceImpl implements RecipeService {
+public class RecipeServiceImpl implements RecipeService{
 
     @Autowired
-    private RecipeRepository recipeRepository;
+    private RecipeRepository recipeRepo;
+
+    @Autowired
+    private UserRepository userRepo;
 
     @Override
-    public void addRecipe(Recipe recipe) {
-        recipeRepository.save(recipe);
-    }
-
-    @Override
-    public void updateRecipe(Recipe recipe) {
-        if (recipeRepository.existsById(recipe.getId())) {
-            recipeRepository.save(recipe);
-        } else {
-            throw new IllegalArgumentException("מתכון עם ID " + recipe.getId() + " לא נמצא");
+    public void add(Recipe r) {
+        if (recipeRepo.existsByid(r.getId())) {
+            throw new RuntimeException("Username already exists");
         }
+        recipeRepo.save(r);
     }
 
     @Override
-    public void deleteRecipe(int id) {
-        if (recipeRepository.existsById(id)) {
-            recipeRepository.deleteById(id);
-        } else {
-            throw new IllegalArgumentException("לא ניתן למחוק - מתכון לא קיים");
+    public void update(Recipe r) {
+        if (!recipeRepo.existsByid(r.getId())) {
+            throw new RuntimeException("Recipe does not exist");
         }
+        recipeRepo.save(r);
+    }
+
+   @Override
+    public void delete(int id) {
+        recipeRepo.deleteById(id);
     }
 
     @Override
-    public Recipe getRecipeById(int id) {
-        Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
-        return optionalRecipe.orElseThrow(() ->
-                new IllegalArgumentException("מתכון עם ID " + id + " לא נמצא"));
+    public List<Recipe> getAll() {
+        return (List<Recipe>) recipeRepo.findAll();
     }
 
     @Override
-    public List<Recipe> getAllRecipes() {
-        return (List<Recipe>) recipeRepository.findAll();
+    public Recipe getBytitle(String title) {
+        return recipeRepo.findBytitle(title);
     }
+
+    @Override
+    public List<String> getAllRecipesbyUserName(String username) {
+        User user = userRepo.findByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("User not found with username: " + username);
+        }
+        return user.getRecipes().stream()
+                .map(Recipe::getTitle)
+                .toList();
+    }
+
 }

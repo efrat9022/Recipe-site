@@ -3,7 +3,6 @@ package com.mysite.recipesite.controllers;
 import com.mysite.recipesite.model.User;
 import com.mysite.recipesite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,35 +12,30 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService userService;
+    private UserService us;
 
-
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    @PostMapping("/add")
+    public void addUser(@RequestBody User u) {
+        us.add(u);
     }
 
-
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable int id) {
-        return userService.getUserById(id)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+    @PutMapping("/update")
+    public void updateUser(@RequestBody User u) {
+        us.update(u);
     }
 
-    @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
-        User created = userService.createUser(user);
-        return ResponseEntity.ok(created);
-    }
-
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable int id, @RequestBody User updatedUser) {
-        return userService.updateUser(id, updatedUser);
-    }
-
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void deleteUser(@PathVariable int id) {
-        userService.deleteUser(id);
+        us.delete(id);
+    }
+
+    @GetMapping("/getAll")
+    public List<User> getAllUsers() {
+        return us.getAll();
+    }
+
+    @GetMapping("/getByUsername/{username}")
+    public User getByUsername(@PathVariable String username) {
+        return us.getByUsername(username);
     }
 }
-

@@ -1,11 +1,13 @@
 package com.mysite.recipesite.service;
+
 import java.util.List;
 import com.mysite.recipesite.model.Recipe;
 
 public interface RecipeService {
-    void addRecipe(Recipe recipe);
-    void updateRecipe(Recipe recipe);
-    void deleteRecipe(int id);
-    Recipe getRecipeById(int id);
-    List<Recipe> getAllRecipes();
+ void add(Recipe r);
+ void update(Recipe r);
+ void delete(int id);
+ List<Recipe> getAll();
+ Recipe getBytitle(String title);
+ List<String> getAllRecipesbyUserName(String username);
 }
